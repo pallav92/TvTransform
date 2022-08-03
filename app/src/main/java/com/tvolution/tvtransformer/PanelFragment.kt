@@ -1,16 +1,19 @@
 package com.tvolution.tvtransformer
 
+import android.graphics.Color
+import android.graphics.Color.WHITE
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.tvolution.tvtransformer.databinding.FragmentPanelBinding
@@ -28,14 +31,6 @@ class PanelFragment : Fragment() {
     private val FORTY_DP: Int = 34 //TODO: make 40dp
     lateinit var binding: FragmentPanelBinding
 
-    val panelItems = listOf(
-        PanelItem("Capture Moments", getDrawableById(R.drawable.ic_camera),{}),
-        PanelItem("Shop", getDrawableById(R.drawable.ic_shop),{}),
-        PanelItem("Kya hai ye?", getDrawableById(R.drawable.ic_lightbulb),{}),
-        PanelItem("Watch Party", getDrawableById(R.drawable.ic_party),{}),
-        PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{}),
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,24 +42,53 @@ class PanelFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.panelItems.removeAllViews()
+        val panelItems = listOf(
+            PanelItem("Capture Moment", getDrawableById(R.drawable.ic_camera),{}),
+            PanelItem("Shop This", getDrawableById(R.drawable.ic_shop),{}),
+            PanelItem("Kya hai ye?", getDrawableById(R.drawable.ic_lightbulb),{}),
+            PanelItem("Watch Party", getDrawableById(R.drawable.ic_party),{}),
+            PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{}),
+        )
         populatePanel(panelItems)
-        (binding.root as LinearLayout).get(0).requestFocus()
+        binding.panelItems[0].requestFocus()
     }
+
+
+    fun getDp(dip: Float) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dip,
+        resources.displayMetrics
+    )
 
     var textViewReference: TextView? = null
     fun populatePanel(panelItems: List<PanelItem>){
-        var pos = 0
+
         panelItems.forEach{
             val item = PanelItemBinding.inflate(layoutInflater)
+            val rootLayoutParams = FrameLayout.LayoutParams(getDp(35f).toInt(),getDp(35f).toInt())
+            rootLayoutParams.marginStart = getDp(6f).toInt()
+            rootLayoutParams.marginEnd = getDp(6f).toInt()
+            rootLayoutParams.topMargin = getDp(8f).toInt()
+            rootLayoutParams.bottomMargin = getDp(8f).toInt()
+
             item.panelItemIcon.setImageDrawable(it.iconDrawable)
             item.root.setOnClickListener { v->it.onClick(v) }
             item.root.setOnFocusChangeListener{ v,hasFocus->
                 if(hasFocus) {
                     item.root.isSelected = true
+                    item.panelItemIcon.setColorFilter(Color.parseColor("#FF7EDB"), android.graphics.PorterDuff.Mode.SRC_IN);
                     val layoutParams =
-                        FrameLayout.LayoutParams(FORTY_DP, WRAP_CONTENT, Gravity.BOTTOM)
-                    val startMargin  = item.root.width*pos + getDp(12)
-                    layoutParams.marginStart = startMargin// position*width + padding -> x*35dp + 12dp
+                        FrameLayout.LayoutParams(getDp(42f).toInt(), WRAP_CONTENT, Gravity.BOTTOM)
+                    var pos = 0
+                    var flag = false
+                    binding.panelItems.forEach { childView->
+                        if(childView==v)
+                            flag=true
+                        if(!flag)
+                            pos+=1
+                    }
+                    val startMargin  = (item.root.width + getDp(12f).toInt())*pos + getDp(6f)
+                    layoutParams.marginStart = startMargin.toInt()// position*width + padding -> x*35dp + 12dp
                     val textView = TextView(context)
                     /* <TextView
                         android:layout_width="40dp"
@@ -76,24 +100,32 @@ class PanelFragment : Fragment() {
                         android:textSize="9sp"
                         android:text="Capture Moments"/>
                         */
-                    textView.text = it.name
-                    binding.panelItems.addView(textView, layoutParams)
+                    textView.apply {
+                        text = it.name
+                        this.setTextColor(Color.WHITE)
+                        textSize = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP,
+                            5f,
+                            resources.displayMetrics
+                        )
+                        maxLines = 2
+                        gravity = Gravity.CENTER
+                    }
+                    binding.root.addView(textView, layoutParams)
                     textViewReference = textView
                 }else{
                     item.root.isSelected = false
+                    item.panelItemIcon.setColorFilter(WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
                     textViewReference?.let { view->
-                        binding.panelItems.removeView(view)
+                        binding.root.removeView(view)
                     }
                 }
             }
-            binding.panelItems.addView(item.root)
-            pos+=1
+            binding.panelItems.addView(item.root, rootLayoutParams)
         }
     }
 
-    private fun getDp(i: Int): Byte {
-        return 3
-    }
+
 
     fun getDrawableById(id:Int): Drawable? {
         return ResourcesCompat.getDrawable(requireContext().resources, id, null)

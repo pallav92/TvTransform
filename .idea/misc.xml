@@ -9,7 +9,7 @@
         <entry key="app/src/main/res/drawable/panel_background.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/panel_item_background.xml" value="0.1635" />
         <entry key="app/src/main/res/layout/fragment_panel.xml" value="0.4312578863372127" />
-        <entry key="app/src/main/res/layout/layout_activity_player.xml" value="0.3848958333333333" />
+        <entry key="app/src/main/res/layout/layout_activity_player.xml" value="0.1" />
         <entry key="app/src/main/res/layout/panel_item.xml" value="3.0" />
       </map>
     </option>

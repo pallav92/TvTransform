@@ -20,7 +20,9 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_activity_player)
-        initializePlayer()
+        val panelFragment = PanelFragment.getInstance()
+        supportFragmentManager.beginTransaction().replace(R.id.panel_container,panelFragment).commit()
+        //initializePlayer()
     }
 
     private fun initializePlayer() {
