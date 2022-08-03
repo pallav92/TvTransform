@@ -3,12 +3,15 @@
     android:layout_width="35dp"
     android:layout_height="35dp"
     android:background="@drawable/panel_item_background"
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginVertical="8dp"
     >
 
     <ImageView
-        android:padding="5dp"
+        android:id="@+id/panel_item_icon"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/ic_shop"
         />
 </FrameLayout>
