@@ -60,6 +60,7 @@ class PanelFragment : Fragment() {
             item.root.setOnClickListener { v->it.onClick(v) }
             item.root.setOnFocusChangeListener{ v,hasFocus->
                 if(hasFocus) {
+                    item.root.isSelected = true
                     val layoutParams =
                         FrameLayout.LayoutParams(FORTY_DP, WRAP_CONTENT, Gravity.BOTTOM)
                     val startMargin  = item.root.width*pos + getDp(12)
@@ -79,6 +80,7 @@ class PanelFragment : Fragment() {
                     binding.panelItems.addView(textView, layoutParams)
                     textViewReference = textView
                 }else{
+                    item.root.isSelected = false
                     textViewReference?.let { view->
                         binding.panelItems.removeView(view)
                     }
