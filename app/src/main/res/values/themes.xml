@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.TvTransformer" parent="@style/Theme.Leanback" />
+</resources>
