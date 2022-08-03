@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "291450058043",
+    "firebase_url": "https://gtv-tvolution-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "gtv-tvolution",
+    "storage_bucket": "gtv-tvolution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291450058043:android:b0be0fc4fc6b57d34cb31e",
+        "android_client_info": {
+          "package_name": "com.tvolution.tvtransformer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291450058043-5sokgqjlnv4doi8bqecaml1tc9lsefgf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz22jd2llBXIHzN-rNmQAhwKidc9NHVSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291450058043-5sokgqjlnv4doi8bqecaml1tc9lsefgf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
