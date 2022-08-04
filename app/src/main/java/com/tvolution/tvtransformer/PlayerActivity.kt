@@ -3,6 +3,7 @@ package com.tvolution.tvtransformer
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -19,8 +20,9 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_activity_player)
-        initializePlayer()
+        binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //initializePlayer()
     }
 
     private fun initializePlayer() {
@@ -34,6 +36,30 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
                 exoPlayer.prepare()
                 exoPlayer.addListener(this)
             }
+    }
+
+    var sidePanelStateValue = SidePanelState.Hide
+
+    lateinit var sidePanelFragment: Fragment
+    fun setSidePanelState(sidePanelState: SidePanelState){
+        when(sidePanelState){
+            SidePanelState.Show -> {
+                sidePanelFragment = SidePanelFragment.getInstance("")
+                supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
+                binding.rightGuideline.setGuidelinePercent(0.7f)
+                sidePanelStateValue = SidePanelState.Show
+            }
+            SidePanelState.Hide -> {
+                binding.rightGuideline.setGuidelinePercent(1f)
+                if (::sidePanelFragment.isInitialized)
+                    supportFragmentManager.beginTransaction().remove(sidePanelFragment).commit()
+                sidePanelStateValue = SidePanelState.Hide
+            }
+        }
+    }
+
+    enum class SidePanelState{
+        Show, Hide
     }
 
     override fun onPlaybackStateChanged(state: Int) {
