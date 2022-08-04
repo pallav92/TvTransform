@@ -6,4 +6,10 @@
     <string name="leave_for_now">Leave for now</string>
     <string name="decline_exit">Decline</string>
     <string name="stay_and_continue">Stay &amp; Continue Watching</string>
+    <string name="how_would_you_recommend_avengers_endgame_to_your_fellow_viewers">How would you recommend Avengers Endgame to your fellow viewers?</string>
+    <string name="must_watch">Must Watch(Highly Recommended)</string>
+    <string name="related_to_avengers_endgame">Related to Avengers Endgame</string>
+    <string name="captured_moments">Captured Moments</string>
+    <string name="one_time">One Time Watch</string>
+    <string name="dont_watch">Don\'t Watch At All</string>
 </resources>

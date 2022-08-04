@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/end_state_background"
+        android:paddingHorizontal="@dimen/dim_16">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_16"
+            android:background="@drawable/recommendation_bg"
+            android:padding="@dimen/dim_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/how_would_you_recommend_avengers_endgame_to_your_fellow_viewers"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dim_16"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/tv_must_watch"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_16"
+                android:background="@drawable/eula_pp_background_selector"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dim_8"
+                android:paddingVertical="@dimen/dim_8"
+                android:text="@string/must_watch"
+                android:textAllCaps="false"
+                android:nextFocusDown="@id/rvRelated"
+                android:textColor="@drawable/priming_exit_selector_text"
+                app:layout_constraintEnd_toStartOf="@+id/tv_one_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+
+            <Button
+                android:id="@+id/tv_one_time"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_16"
+                android:background="@drawable/eula_pp_background_selector"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dim_8"
+                android:paddingVertical="@dimen/dim_8"
+                android:text="@string/one_time"
+                android:textAllCaps="false"
+                android:nextFocusDown="@id/rvRelated"
+                android:textColor="@drawable/priming_exit_selector_text"
+                app:layout_constraintEnd_toStartOf="@+id/tv_dont_watch"
+                app:layout_constraintStart_toEndOf="@+id/tv_must_watch"
+                app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+
+            <Button
+                android:id="@+id/tv_dont_watch"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_16"
+                android:background="@drawable/eula_pp_background_selector"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dim_8"
+                android:paddingVertical="@dimen/dim_8"
+                android:text="@string/dont_watch"
+                android:textAllCaps="false"
+                android:nextFocusDown="@id/rvRelated"
+                android:textColor="@drawable/priming_exit_selector_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_one_time"
+                app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_recommend_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_16"
+            android:text="@string/related_to_avengers_endgame"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_rate" />
+
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvRelated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recommend_title"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_related_movies" />
+
+        <TextView
+            android:id="@+id/tv_captured_moments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_16"
+            android:text="@string/captured_moments"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvRelated" />
+
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvCaptured"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_captured_moments"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_captured_moments" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

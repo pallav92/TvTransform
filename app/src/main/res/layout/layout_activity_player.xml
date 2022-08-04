@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
             android:focusableInTouchMode="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
@@ -24,10 +23,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:surface_type="texture_view"
             app:use_controller="false" />
-
-
-
-
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/right_guideline"

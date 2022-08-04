@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/card_selector.xml" value="0.2415" />
+        <entry key="app/src/main/res/drawable/card_unselected.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/eula_pp_background_selector.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/eula_text_background_selected.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/eula_text_background_unselected.xml" value="0.1395" />
@@ -11,7 +13,12 @@
         <entry key="app/src/main/res/drawable/rectangle_with_round_corner_background.xml" value="0.223" />
         <entry key="app/src/main/res/drawable/rounded_corner_black_solid.xml" value="0.149" />
         <entry key="app/src/main/res/drawable/rounded_corner_white.xml" value="0.223" />
+        <entry key="app/src/main/res/layout/activity_end_state.xml" value="0.2559549967447919" />
         <entry key="app/src/main/res/layout/dialog_priming_fragment.xml" value="0.26900482177734375" />
+        <entry key="app/src/main/res/layout/fragment_nudge.xml" value="0.2863983016830307" />
+        <entry key="app/src/main/res/layout/fragment_panel.xml" value="0.33693693693693694" />
+        <entry key="app/src/main/res/layout/item_captured_moments.xml" value="0.14479166666666668" />
+        <entry key="app/src/main/res/layout/item_related_movies.xml" value="0.23483988444010415" />
         <entry key="app/src/main/res/layout/layout_activity_player.xml" value="0.1" />
         <entry key="app/src/main/res/layout/priming_dialog_fragment.xml" value="0.1" />
       </map>

@@ -6,4 +6,7 @@
     <dimen name="dim_8">8dp</dimen>
     <dimen name="dim_32">32dp</dimen>
     <dimen name="dim_128">128dp</dimen>
+    <dimen name="dim_20">20dp</dimen>
+    <dimen name="dim_4">4dp</dimen>
+    <dimen name="text_16">16sp</dimen>
 </resources>
