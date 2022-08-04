@@ -27,7 +27,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //initializePlayer()
+        initializePlayer()
     }
 
     fun setTopPanelState(panelState: TopPanelState){
@@ -106,6 +106,15 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
 //        showSeekForwardArrow()
         player?.let {
             it.seekTo(it.currentPosition + DEFAULT_SEEK_VALUE)
+        }
+    }
+
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        if (!fm.isDestroyed) {
+            val primingDialogFragment: PrimingDialogFragment =
+                PrimingDialogFragment.newInstance()
+            primingDialogFragment.show(fm, PrimingDialogFragment.TAG)
         }
     }
 

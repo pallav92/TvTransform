@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TvTransformer</string>
+    <string name="leaving_so_soon">Leaving so soon …?</string>
+    <string name="leave_for_now">Leave for now</string>
+    <string name="decline_exit">Decline</string>
+    <string name="stay_and_continue">Stay &amp; Continue Watching</string>
 </resources>

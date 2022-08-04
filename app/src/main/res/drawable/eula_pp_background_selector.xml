@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="false" android:drawable="@drawable/eula_text_background_unselected"/>
+    <item android:state_focused="true"
+        android:drawable="@drawable/eula_text_background_selected"
+        android:color="@color/lb_tv_white"/>
+
+</selector>
