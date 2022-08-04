@@ -8,16 +8,22 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.tvolution.tvtransformer.databinding.FragmentSidePanelBinding
 
+
 class SidePanelFragment : Fragment() {
 
     lateinit var binding: FragmentSidePanelBinding
 
+    enum class Type{
+        Moment, Link
+    }
     companion object{
         val MOMENT_URL = "MOMENT_URL"
-        fun getInstance(imageUrl: String):SidePanelFragment{
+        val TYPE="type"
+        fun getInstance(imageUrl: String, type: Type):SidePanelFragment{
             val sidePanelFragment = SidePanelFragment()
             Bundle().apply {
                 putString(MOMENT_URL, imageUrl)
+                putString(TYPE, type.name)
                 sidePanelFragment.arguments = this
             }
             return sidePanelFragment
@@ -35,6 +41,17 @@ class SidePanelFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Glide.with(requireContext()).load(requireArguments().getString(MOMENT_URL)).into(binding.sidePanelImage)
+        val type = Type.valueOf(requireArguments().getString(TYPE).toString())
+        when(type){
+            Type.Moment -> {
+                binding.sidePanelMoment.visibility = View.VISIBLE
+                binding.sidePanelLink.visibility = View.GONE
+            }
+            Type.Link -> {
+                binding.sidePanelMoment.visibility = View.GONE
+                binding.sidePanelLink.visibility = View.VISIBLE
+            }
+        }
     }
 
 

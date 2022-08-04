@@ -47,7 +47,10 @@ class PanelFragment : Fragment() {
             PanelItem("Shop This", getDrawableById(R.drawable.ic_shop),{}),
             PanelItem("Kya hai ye?", getDrawableById(R.drawable.ic_lightbulb),{}),
             PanelItem("Watch Party", getDrawableById(R.drawable.ic_party),{}),
-            PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{}),
+            PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{
+                (requireActivity() as PlayerActivity).setSidePanelState(PlayerActivity.SidePanelState.ShowLink)
+                (requireActivity() as PlayerActivity).setTopPanelState(PlayerActivity.TopPanelState.Hidden)
+            }),
         )
         populatePanel(panelItems)
         binding.panelItems[0].requestFocus()

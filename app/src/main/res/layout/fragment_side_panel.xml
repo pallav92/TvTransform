@@ -7,6 +7,50 @@
     android:background="@drawable/side_panel_background"
     tools:context=".SidePanelFragment">
 
+    <FrameLayout
+        android:id="@+id/side_panel_link_bg2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#212226"/>
+    <ImageView
+        android:id="@+id/side_panel_link_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="60dp"
+        android:src="@drawable/mobile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#212226"/>
+
+    <TextView
+        android:id="@+id/side_panel_link_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Scan this QR to link your phone"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/side_panel_qr"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:src="@drawable/qrcode"
+        app:layout_constraintBottom_toTopOf="@+id/side_panel_qr_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/side_panel_link"
+        app:layout_constraintVertical_bias="0.36" />
+
+
     <ImageView
         android:id="@+id/side_panel_image"
         android:layout_width="254dp"
@@ -58,5 +102,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/side_panel_moment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:constraint_referenced_ids="side_panel_image, side_panel_title, side_panel_subtitle, side_panel_qr_button"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/side_panel_link"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        app:constraint_referenced_ids="side_panel_qr, side_panel_link_bg, side_panel_link_bg2, side_panel_link_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

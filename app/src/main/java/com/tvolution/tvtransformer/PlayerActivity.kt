@@ -51,6 +51,10 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             setTopPanelState(TopPanelState.Shown)
             return true
         }
+        if(keyCode == KeyEvent.KEYCODE_BACK && sidePanelStateValue != SidePanelState.Hide){
+            setSidePanelState(SidePanelState.Hide)
+            return true
+        }
         return super.onKeyDown(keyCode, event)
     }
 
@@ -78,11 +82,17 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     lateinit var sidePanelFragment: Fragment
     fun setSidePanelState(sidePanelState: SidePanelState){
         when(sidePanelState){
-            SidePanelState.Show -> {
-                sidePanelFragment = SidePanelFragment.getInstance("")
+            SidePanelState.ShowMoment -> {
+                sidePanelFragment = SidePanelFragment.getInstance("", SidePanelFragment.Type.Moment)
                 supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
                 binding.rightGuideline.setGuidelinePercent(0.7f)
-                sidePanelStateValue = SidePanelState.Show
+                sidePanelStateValue = SidePanelState.ShowMoment
+            }
+            SidePanelState.ShowLink -> {
+                sidePanelFragment = SidePanelFragment.getInstance("", SidePanelFragment.Type.Link)
+                supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
+                binding.rightGuideline.setGuidelinePercent(0.7f)
+                sidePanelStateValue = SidePanelState.ShowLink
             }
             SidePanelState.Hide -> {
                 binding.rightGuideline.setGuidelinePercent(1f)
@@ -94,7 +104,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     }
 
     enum class SidePanelState{
-        Show, Hide}
+        ShowMoment, ShowLink, Hide}
 
     fun showNudge(icon: Int, title:String, okbutton:Boolean){
         val nudgeFragment = NudgeFragment.getInstance(title, icon, 10)
