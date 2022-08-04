@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
             android:focusableInTouchMode="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
