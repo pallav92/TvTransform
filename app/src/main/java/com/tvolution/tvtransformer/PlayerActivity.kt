@@ -27,6 +27,11 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         //initializePlayer()
     }
 
+    fun captureMoment(){
+        showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
+        //
+    }
+
     fun setTopPanelState(panelState: TopPanelState){
         when(panelState){
             TopPanelState.Shown -> {
@@ -106,8 +111,9 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     enum class SidePanelState{
         ShowMoment, ShowLink, Hide}
 
-    fun showNudge(icon: Int, title:String, okbutton:Boolean){
-        val nudgeFragment = NudgeFragment.getInstance(title, icon, 10)
+    fun showNudge(icon: Int, title:String, okbutton:Boolean, notimer:Boolean){
+        val duration = if(notimer) 2 else 10
+        val nudgeFragment = NudgeFragment.getInstance(title, icon, duration)
         supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment).commit()
         binding.nudgeContainer.visibility = View.VISIBLE
         if(okbutton)

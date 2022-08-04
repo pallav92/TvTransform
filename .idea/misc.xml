@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/panel_background.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/panel_item_background.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/top_panel_puller_background.xml" value="0.2615" />
+        <entry key="app/src/main/res/layout/fragment_nudge.xml" value="0.44505494505494503" />
         <entry key="app/src/main/res/layout/fragment_panel.xml" value="0.4312578863372127" />
         <entry key="app/src/main/res/layout/fragment_side_panel.xml" value="0.18416523235800344" />
         <entry key="app/src/main/res/layout/layout_activity_player.xml" value="0.1" />

@@ -1,5 +1,6 @@
 package com.tvolution.tvtransformer
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ class NudgeFragment : Fragment() {
 
     companion object{
 
+        const val NO_TIMER = 2
         const val TITLE="title"
         const val ICON="icon"
         const val DURATION="duration"
@@ -44,6 +46,11 @@ class NudgeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val time = arguments!!.getInt(DURATION)
+        if(time== NO_TIMER)
+            binding.pollsViewTimerFl.visibility = View.INVISIBLE
+        else
+            binding.pollsViewTimerFl.visibility = View.VISIBLE
+        binding.include.panelItemIcon.setColorFilter(Color.parseColor("#FF7EDB"), android.graphics.PorterDuff.Mode.SRC_IN);
         binding.nudgeTitle.text = arguments!!.getString(TITLE)
         binding.include.panelItemIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, arguments!!.getInt(ICON), null))
         binding.include.root.isSelected = true

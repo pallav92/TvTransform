@@ -43,7 +43,10 @@ class PanelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.panelItems.removeAllViews()
         val panelItems = listOf(
-            PanelItem("Capture Moment", getDrawableById(R.drawable.ic_camera),{}),
+            PanelItem("Capture Moment", getDrawableById(R.drawable.ic_camera),{
+                (requireActivity() as PlayerActivity).captureMoment()
+                (requireActivity() as PlayerActivity).setTopPanelState(PlayerActivity.TopPanelState.Hidden)
+            }),
             PanelItem("Shop This", getDrawableById(R.drawable.ic_shop),{}),
             PanelItem("Kya hai ye?", getDrawableById(R.drawable.ic_lightbulb),{}),
             PanelItem("Watch Party", getDrawableById(R.drawable.ic_party),{}),
