@@ -3,6 +3,7 @@ package com.tvolution.tvtransformer
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -23,11 +24,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         super.onCreate(savedInstanceState)
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initializePlayer()
-        binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initializePlayer()
+        //initializePlayer()
     }
 
     fun setTopPanelState(panelState: TopPanelState){
@@ -75,6 +72,42 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             }
     }
 
+
+    var sidePanelStateValue = SidePanelState.Hide
+
+    lateinit var sidePanelFragment: Fragment
+    fun setSidePanelState(sidePanelState: SidePanelState){
+        when(sidePanelState){
+            SidePanelState.Show -> {
+                sidePanelFragment = SidePanelFragment.getInstance("")
+                supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
+                binding.rightGuideline.setGuidelinePercent(0.7f)
+                sidePanelStateValue = SidePanelState.Show
+            }
+            SidePanelState.Hide -> {
+                binding.rightGuideline.setGuidelinePercent(1f)
+                if (::sidePanelFragment.isInitialized)
+                    supportFragmentManager.beginTransaction().remove(sidePanelFragment).commit()
+                sidePanelStateValue = SidePanelState.Hide
+            }
+        }
+    }
+
+    enum class SidePanelState{
+        Show, Hide}
+
+    fun showNudge(icon: Int, title:String, okbutton:Boolean){
+        val nudgeFragment = NudgeFragment.getInstance(title, icon, 10)
+        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment).commit()
+        binding.nudgeContainer.visibility = View.VISIBLE
+        if(okbutton)
+            binding.nudgeBackContainer.visibility = View.VISIBLE
+    }
+
+    fun hideNudge(){
+        binding.nudgeContainer.visibility = View.GONE
+        binding.nudgeBackContainer.visibility = View.GONE
+    }
 
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)

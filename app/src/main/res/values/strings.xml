@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TvTransformer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="leaving_so_soon">Leaving so soon …?</string>
     <string name="leave_for_now">Leave for now</string>
     <string name="decline_exit">Decline</string>
