@@ -53,12 +53,16 @@
 
     <ImageView
         android:id="@+id/side_panel_image"
-        android:layout_width="254dp"
-        android:layout_height="143dp"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="#000000"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22000003" />
 
     <TextView
         android:id="@+id/side_panel_title"
@@ -108,13 +112,14 @@
         android:id="@+id/side_panel_moment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+
         app:constraint_referenced_ids="side_panel_image, side_panel_title, side_panel_subtitle, side_panel_qr_button"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/side_panel_link"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_marginBottom="16dp"
         app:constraint_referenced_ids="side_panel_qr, side_panel_link_bg, side_panel_link_bg2, side_panel_link_text"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -5,10 +5,13 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.tvolution.tvtransformer.databinding.LayoutActivityPlayerBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class PlayerActivity : FragmentActivity(), Player.Listener {
@@ -28,8 +31,16 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     }
 
     fun captureMoment(){
-        showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
-        //
+        lifecycleScope.launch{
+            delay(500)
+            showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
+            //
+            val second = 9 //Todo: Replace with timestamp second
+            gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
+            delay(2000)
+            setSidePanelState(SidePanelState.ShowMoment)
+        }
+
     }
 
     fun setTopPanelState(panelState: TopPanelState){
@@ -83,12 +94,13 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
 
 
     var sidePanelStateValue = SidePanelState.Hide
+    var gifValue = ""
 
     lateinit var sidePanelFragment: Fragment
     fun setSidePanelState(sidePanelState: SidePanelState){
         when(sidePanelState){
             SidePanelState.ShowMoment -> {
-                sidePanelFragment = SidePanelFragment.getInstance("", SidePanelFragment.Type.Moment)
+                sidePanelFragment = SidePanelFragment.getInstance(gifValue, SidePanelFragment.Type.Moment)
                 supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
                 binding.rightGuideline.setGuidelinePercent(0.7f)
                 sidePanelStateValue = SidePanelState.ShowMoment
