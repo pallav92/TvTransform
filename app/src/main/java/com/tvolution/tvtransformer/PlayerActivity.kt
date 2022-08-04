@@ -9,6 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.tvolution.tvtransformer.databinding.LayoutActivityPlayerBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,6 +30,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         super.onCreate(savedInstanceState)
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //initializePlayer()
     }
 
@@ -37,6 +41,10 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             //
             val second = 9 //Todo: Replace with timestamp second
             gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
+            FirebaseApp.initializeApp(this@PlayerActivity)
+            val database = Firebase.database.reference
+            val moment = Moment(gifValue, "HBO", System.currentTimeMillis().toString(), "Avengers: Endgame", "SuperHero")
+            database.child("moments").child(System.currentTimeMillis().toString()).setValue(moment)
             delay(2000)
             setSidePanelState(SidePanelState.ShowMoment)
         }
