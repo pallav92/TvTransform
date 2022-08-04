@@ -1,6 +1,8 @@
 package com.tvolution.tvtransformer
 
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -22,6 +24,41 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initializePlayer()
+        binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        //initializePlayer()
+    }
+
+    fun setTopPanelState(panelState: TopPanelState){
+        when(panelState){
+            TopPanelState.Shown -> {
+                val panelFragment = PanelFragment.getInstance()
+                supportFragmentManager.beginTransaction().replace(R.id.panel_container,panelFragment).commit()
+                binding.panelContainer.visibility = View.VISIBLE
+                binding.panelContent.visibility = View.GONE
+            }
+            TopPanelState.Hidden -> {
+                binding.panelContainer.visibility = View.GONE
+                binding.panelContent.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if(keyCode == KeyEvent.KEYCODE_DPAD_DOWN && binding.panelContent.visibility == View.GONE){
+            setTopPanelState(TopPanelState.Hidden)
+            return true
+        }
+        if(keyCode == KeyEvent.KEYCODE_DPAD_UP && binding.panelContent.visibility == View.VISIBLE){
+            setTopPanelState(TopPanelState.Shown)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    enum class TopPanelState{
+        Shown, Hidden
     }
 
 
