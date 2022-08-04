@@ -43,11 +43,17 @@ class PanelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.panelItems.removeAllViews()
         val panelItems = listOf(
-            PanelItem("Capture Moment", getDrawableById(R.drawable.ic_camera),{}),
+            PanelItem("Capture Moment", getDrawableById(R.drawable.ic_camera),{
+                (requireActivity() as PlayerActivity).captureMoment()
+                (requireActivity() as PlayerActivity).setTopPanelState(PlayerActivity.TopPanelState.Hidden)
+            }),
             PanelItem("Shop This", getDrawableById(R.drawable.ic_shop),{}),
-            PanelItem("Kya hai ye?", getDrawableById(R.drawable.ic_lightbulb),{}),
+            PanelItem("Did you know?", getDrawableById(R.drawable.ic_lightbulb),{}),
             PanelItem("Watch Party", getDrawableById(R.drawable.ic_party),{}),
-            PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{}),
+            PanelItem("Link Phone", getDrawableById(R.drawable.ic_link_phone),{
+                (requireActivity() as PlayerActivity).setSidePanelState(PlayerActivity.SidePanelState.ShowLink)
+                (requireActivity() as PlayerActivity).setTopPanelState(PlayerActivity.TopPanelState.Hidden)
+            }),
         )
         populatePanel(panelItems)
         binding.panelItems[0].requestFocus()
