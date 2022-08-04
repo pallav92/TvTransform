@@ -70,6 +70,7 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
             }
     }
 
+
     var sidePanelStateValue = SidePanelState.Hide
 
     lateinit var sidePanelFragment: Fragment
@@ -91,7 +92,19 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
     }
 
     enum class SidePanelState{
-        Show, Hide
+        Show, Hide}
+
+    fun showNudge(icon: Int, title:String, okbutton:Boolean){
+        val nudgeFragment = NudgeFragment.getInstance(title, icon, 10)
+        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment).commit()
+        binding.nudgeContainer.visibility = View.VISIBLE
+        if(okbutton)
+            binding.nudgeBackContainer.visibility = View.VISIBLE
+    }
+
+    fun hideNudge(){
+        binding.nudgeContainer.visibility = View.GONE
+        binding.nudgeBackContainer.visibility = View.GONE
     }
 
     override fun onPlaybackStateChanged(state: Int) {
