@@ -70,6 +70,19 @@ class PlayerActivity : FragmentActivity(),  Player.Listener {
             }
     }
 
+    fun showNudge(icon: Int, title:String, okbutton:Boolean){
+        val nudgeFragment = NudgeFragment.getInstance(title, icon, 10)
+        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment).commit()
+        binding.nudgeContainer.visibility = View.VISIBLE
+        if(okbutton)
+            binding.nudgeBackContainer.visibility = View.VISIBLE
+    }
+
+    fun hideNudge(){
+        binding.nudgeContainer.visibility = View.GONE
+        binding.nudgeBackContainer.visibility = View.GONE
+    }
+
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
         val playState: PlayState = when (state) {
