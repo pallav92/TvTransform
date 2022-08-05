@@ -1,10 +1,13 @@
 package com.tvolution.tvtransformer
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -21,33 +24,39 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     private var playbackPosition = 0L
     private var player: SimpleExoPlayer? = null
     private val TAG = "Hackathon"
+    private var capturedMoments  = arrayListOf<String>()
+    private lateinit var viewModel: PlayerViewModel
     private lateinit var binding: LayoutActivityPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //initializePlayer()
+        initViewModel()
+        initializePlayer()
     }
 
-    fun captureMoment(){
-        lifecycleScope.launch{
+    fun captureMoment() {
+        lifecycleScope.launch {
             delay(500)
             showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
             //
             val second = 9 //Todo: Replace with timestamp second
-            gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
+            gifValue =
+                "https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/" + second + ".gif"
             delay(2000)
             setSidePanelState(SidePanelState.ShowMoment)
+            capturedMoments.add(gifValue)
         }
 
     }
 
-    fun setTopPanelState(panelState: TopPanelState){
-        when(panelState){
+    fun setTopPanelState(panelState: TopPanelState) {
+        when (panelState) {
             TopPanelState.Shown -> {
                 val panelFragment = PanelFragment.getInstance()
-                supportFragmentManager.beginTransaction().replace(R.id.panel_container,panelFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.panel_container, panelFragment).commit()
                 binding.panelContainer.visibility = View.VISIBLE
                 binding.panelContent.visibility = View.GONE
             }
@@ -59,22 +68,22 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if(keyCode == KeyEvent.KEYCODE_DPAD_DOWN && binding.panelContent.visibility == View.GONE){
+        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && binding.panelContent.visibility == View.GONE) {
             setTopPanelState(TopPanelState.Hidden)
             return true
         }
-        if(keyCode == KeyEvent.KEYCODE_DPAD_UP && binding.panelContent.visibility == View.VISIBLE){
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP && binding.panelContent.visibility == View.VISIBLE) {
             setTopPanelState(TopPanelState.Shown)
             return true
         }
-        if(keyCode == KeyEvent.KEYCODE_BACK && sidePanelStateValue != SidePanelState.Hide){
+        if (keyCode == KeyEvent.KEYCODE_BACK && sidePanelStateValue != SidePanelState.Hide) {
             setSidePanelState(SidePanelState.Hide)
             return true
         }
         return super.onKeyDown(keyCode, event)
     }
 
-    enum class TopPanelState{
+    enum class TopPanelState {
         Shown, Hidden
     }
 
@@ -97,17 +106,20 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     var gifValue = ""
 
     lateinit var sidePanelFragment: Fragment
-    fun setSidePanelState(sidePanelState: SidePanelState){
-        when(sidePanelState){
+    fun setSidePanelState(sidePanelState: SidePanelState) {
+        when (sidePanelState) {
             SidePanelState.ShowMoment -> {
-                sidePanelFragment = SidePanelFragment.getInstance(gifValue, SidePanelFragment.Type.Moment)
-                supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
+                sidePanelFragment =
+                    SidePanelFragment.getInstance(gifValue, SidePanelFragment.Type.Moment)
+                supportFragmentManager.beginTransaction()
+                    .replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
                 binding.rightGuideline.setGuidelinePercent(0.7f)
                 sidePanelStateValue = SidePanelState.ShowMoment
             }
             SidePanelState.ShowLink -> {
                 sidePanelFragment = SidePanelFragment.getInstance("", SidePanelFragment.Type.Link)
-                supportFragmentManager.beginTransaction().replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(binding.sidePanelContainer.id, sidePanelFragment).commit()
                 binding.rightGuideline.setGuidelinePercent(0.7f)
                 sidePanelStateValue = SidePanelState.ShowLink
             }
@@ -120,19 +132,21 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         }
     }
 
-    enum class SidePanelState{
-        ShowMoment, ShowLink, Hide}
+    enum class SidePanelState {
+        ShowMoment, ShowLink, Hide
+    }
 
-    fun showNudge(icon: Int, title:String, okbutton:Boolean, notimer:Boolean){
-        val duration = if(notimer) 2 else 10
+    fun showNudge(icon: Int, title: String, okbutton: Boolean, notimer: Boolean) {
+        val duration = if (notimer) 2 else 10
         val nudgeFragment = NudgeFragment.getInstance(title, icon, duration)
-        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment).commit()
+        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment)
+            .commit()
         binding.nudgeContainer.visibility = View.VISIBLE
-        if(okbutton)
+        if (okbutton)
             binding.nudgeBackContainer.visibility = View.VISIBLE
     }
 
-    fun hideNudge(){
+    fun hideNudge() {
         binding.nudgeContainer.visibility = View.GONE
         binding.nudgeBackContainer.visibility = View.GONE
     }
@@ -140,7 +154,10 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
         val playState: PlayState = when (state) {
-            Player.STATE_ENDED -> PlayState.ENDED
+            Player.STATE_ENDED -> {
+                openEndStateActivity()
+                PlayState.ENDED
+            }
             Player.STATE_READY -> {
                 PlayState.UNKNOWN
             }
@@ -148,6 +165,12 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             else -> PlayState.UNKNOWN
         }
 //        viewModel.handlePlaybackStateChange(playState)
+    }
+
+    private fun openEndStateActivity() {
+        val intent = Intent(this, EndStateActivity::class.java)
+        intent.putStringArrayListExtra("CAPTURED_MOMENTS", capturedMoments)
+        startActivity(intent)
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -163,27 +186,24 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         }
     }
 
-    fun seekForward() {
-//        showSeekForwardArrow()
-        player?.let {
-            it.seekTo(it.currentPosition + DEFAULT_SEEK_VALUE)
-        }
-    }
 
     override fun onBackPressed() {
         val fm = supportFragmentManager
         if (!fm.isDestroyed) {
+            viewModel.playPauseLiveData.value = false
             val primingDialogFragment: PrimingDialogFragment =
                 PrimingDialogFragment.newInstance()
             primingDialogFragment.show(fm, PrimingDialogFragment.TAG)
         }
     }
 
-    fun seekBackward() {
-//        showSeekBackwardArrow()
-        player?.run {
-            if (currentPosition - DEFAULT_SEEK_VALUE >= 0) {
-                seekTo(currentPosition - DEFAULT_SEEK_VALUE)
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
+        viewModel.playPauseLiveData.observe(this) {
+            if (it) {
+                player?.play()
+            } else {
+                player?.pause()
             }
         }
     }

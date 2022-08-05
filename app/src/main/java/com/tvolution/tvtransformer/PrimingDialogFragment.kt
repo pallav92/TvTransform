@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tvolution.tvtransformer.databinding.DialogPrimingFragmentBinding
 
@@ -40,11 +41,16 @@ class PrimingDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(PlayerViewModel::class.java)
         binding.tvLeaveForNow.setOnClickListener { requireActivity().finish() }
-        binding.tvStayContinue.setOnClickListener { dismissAllowingStateLoss() }
+        binding.tvStayContinue.setOnClickListener {
+            viewModel.playPauseLiveData.value = true
+            dismissAllowingStateLoss()
+        }
 //        binding.tvLeaveForNow.setOnFocusChangeListener(focusChangeListner)
 //        binding.tvStayContinue.setOnFocusChangeListener(focusChangeListner)
 //        binding.tvLeaveForNow.requestFocus()
     }
+
+
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

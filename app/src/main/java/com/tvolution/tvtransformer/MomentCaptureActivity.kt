@@ -5,12 +5,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tvolution.tvtransformer.databinding.ActivityEndStateBinding
 
-class EndStateActivity : FragmentActivity() {
+class MomentCaptureActivity : FragmentActivity() {
 
     private lateinit var binding: ActivityEndStateBinding
     private lateinit var endStateRecommendAdapter: EndStateRecommendAdapter
     private lateinit var endStateMomentAdapter: EndStateMomentAdapter
-    private  var capturedMoments = arrayListOf<String>()
+    private var capturedMoments = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,13 @@ class EndStateActivity : FragmentActivity() {
     }
 
     private fun initData() {
-        endStateRecommendAdapter.list = arrayListOf(R.drawable.cardone, R.drawable.cardtwo, R.drawable.cardthree, R.drawable.cardfour, R.drawable.cardfive)
+        endStateRecommendAdapter.list = arrayListOf(
+            R.drawable.cardone,
+            R.drawable.cardtwo,
+            R.drawable.cardthree,
+            R.drawable.cardfour,
+            R.drawable.cardfive
+        )
         endStateRecommendAdapter.notifyDataSetChanged()
         endStateMomentAdapter.list = capturedMoments
         endStateMomentAdapter.notifyDataSetChanged()
@@ -32,14 +38,22 @@ class EndStateActivity : FragmentActivity() {
         endStateRecommendAdapter = EndStateRecommendAdapter()
         endStateMomentAdapter = EndStateMomentAdapter()
         binding.apply {
-           rvRelated.apply {
+            rvRelated.apply {
                 layoutManager =
-                    LinearLayoutManager(this@EndStateActivity, LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(
+                        this@MomentCaptureActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
                 adapter = endStateRecommendAdapter
             }
             rvCaptured.apply {
                 layoutManager =
-                    LinearLayoutManager(this@EndStateActivity, LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(
+                        this@MomentCaptureActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
                 adapter = endStateMomentAdapter
             }
         }

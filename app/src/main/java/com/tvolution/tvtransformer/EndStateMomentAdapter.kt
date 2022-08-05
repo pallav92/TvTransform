@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 
 class EndStateMomentAdapter : RecyclerView.Adapter<EndStateMomentAdapter.ItemViewHolder>() {
 
-    var list = arrayListOf<Int>()
+    var list = arrayListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
