@@ -31,22 +31,54 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     private lateinit var viewModel: PlayerViewModel
     private lateinit var binding: LayoutActivityPlayerBinding
 
+
+    data class StaticNudgeData(val icon: Int, val title: String, val startTimeInMillli:Long, val sutitle:String, var shown:Boolean)
+
+    val scheduledNudges = listOf(
+        StaticNudgeData(R.drawable.ic_camera, "2.5k saved this moment with glance",96000,"", false),
+        StaticNudgeData(R.drawable.gauntlet, "Inifinity Gauntlet",135000,"9 pieces left", false),
+        StaticNudgeData(R.drawable.stormhammer, "Stormbreaker",150000,"2 pieces left", false),
+        StaticNudgeData(R.drawable.gauntlet, "Inifinity Gauntlet",180000,"9 pieces left", false),
+        StaticNudgeData(R.drawable.ic_camera, "26k saved this moment with glance",215000,"", false),
+        StaticNudgeData(R.drawable.ic_camera, "26k saved this moment with glance",255000,"", false)
+
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViewModel()
         initializePlayer()
+        lifecycleScope.launch {
+            while(true){
+                player?.let { player->
+                    var momentToBeShown: StaticNudgeData? = null
+                    scheduledNudges.forEach{
+                        if(!it.shown){
+                            if(it.startTimeInMillli<= player.currentPosition){
+                                momentToBeShown = it
+
+                            }
+                        }
+                    }
+                    momentToBeShown?.let {
+                        showNudge(it.icon, it.title, true, false, R.drawable.ic_camera!=it.icon)
+                    }
+
+                }
+            }
+        }
     }
 
     fun captureMoment() {
         lifecycleScope.launch {
             delay(500)
-            showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
+            showNudge(R.drawable.ic_camera, "Capturing Moment", false, true, false)
             //
             player?.let {
                 val second = it.currentPosition //Todo: Replace with timestamp second
-                gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/testvid/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
+                gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/testvid/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
                 FirebaseApp.initializeApp(this@PlayerActivity)
                 val database = Firebase.database.reference
                 val moment = Moment(gifValue, "HBO", System.currentTimeMillis().toString(), "Avengers: Endgame", "SuperHero")
@@ -101,7 +133,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             .build().also { exoPlayer ->
                 binding.videoView.player = exoPlayer
                 //TODO : Add URL
-                exoPlayer.setMediaItem(MediaItem.fromUri("https://glance.l.inmobicdn.net/public/glancetv/xiaomi/samsung/samsung_intro_01.mp4"))
+                exoPlayer.setMediaItem(MediaItem.fromUri("https://hackathon2978.s3.ap-south-1.amazonaws.com/final_vid/video_hackathon.mp4"))
                 exoPlayer.playWhenReady = playWhenReady
                 exoPlayer.seekTo(playbackPosition)
                 exoPlayer.prepare()
@@ -144,9 +176,16 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         ShowMoment, ShowLink, Hide
     }
 
-    fun showNudge(icon: Int, title: String, okbutton: Boolean, notimer: Boolean) {
+    fun showNudge(icon: Int, title: String, okbutton: Boolean, notimer: Boolean, shopItem: Boolean) {
         val duration = if (notimer) 2 else 10
         val nudgeFragment = NudgeFragment.getInstance(title, icon, duration)
+
+        if(shopItem){
+            nudgeFragment.setShopImage(icon, title)
+            binding.nudgeExitText.text = " to explore!"
+        }else
+            binding.nudgeExitText.text = " to capture this!"
+
         supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment)
             .commit()
         binding.nudgeContainer.visibility = View.VISIBLE

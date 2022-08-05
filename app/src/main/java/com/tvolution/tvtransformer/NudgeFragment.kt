@@ -45,6 +45,7 @@ class NudgeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.nudgesOfShop.visibility = View.GONE
         val time = arguments!!.getInt(DURATION)
         if(time== NO_TIMER)
             binding.pollsViewTimerFl.visibility = View.INVISIBLE
@@ -65,5 +66,12 @@ class NudgeFragment : Fragment() {
             }
             (requireActivity() as PlayerActivity).hideNudge()
         }
+    }
+
+    fun setShopImage(icon: Int, title: String) {
+        binding.nudgesOfShop.visibility = View.VISIBLE
+        binding.productImage.setImageDrawable(ResourcesCompat.getDrawable(resources, icon, null))
+        binding.nudgeTitle.text = title
+        binding.nudgeSubtitle.text ="Only 2 left!"
     }
 }

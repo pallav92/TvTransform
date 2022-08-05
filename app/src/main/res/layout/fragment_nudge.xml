@@ -21,6 +21,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/product_image"
+        android:background="#000000"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <TextView
         android:id="@+id/nudge_title"
         android:layout_width="0dp"
@@ -29,12 +43,40 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_weight="3"
+        android:textSize="12sp"
         android:gravity="center_vertical"
         android:text="asdnkajnsdkaskdankdnskajdnakjsndk"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nudge_subtitle"
         app:layout_constraintEnd_toStartOf="@+id/pollsView_timer_fl"
         app:layout_constraintStart_toEndOf="@+id/include"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nudge_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="3"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textColor="#F69112"
+        android:gravity="center_vertical"
+        android:text="Discord Community"
+        app:layout_constraintTop_toBottomOf="@id/nudge_title"
+        app:layout_constraintEnd_toStartOf="@+id/pollsView_timer_fl"
+        app:layout_constraintStart_toEndOf="@+id/include"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/nudges_of_shop"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="nudge_subtitle, product_image"/>
 
     <FrameLayout
         android:id="@+id/pollsView_timer_fl"
