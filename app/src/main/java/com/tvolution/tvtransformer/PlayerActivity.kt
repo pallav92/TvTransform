@@ -44,21 +44,23 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             delay(500)
             showNudge(R.drawable.ic_camera, "Capturing Moment", false, true)
             //
-            val second = 9 //Todo: Replace with timestamp second
-            gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
-            FirebaseApp.initializeApp(this@PlayerActivity)
-            val database = Firebase.database.reference
-            val moment = Moment(gifValue, "HBO", System.currentTimeMillis().toString(), "Avengers: Endgame", "SuperHero")
-            database.child("moments").child(System.currentTimeMillis().toString()).setValue(moment)
-            delay(2000)
-            setSidePanelState(SidePanelState.ShowMoment)
-            capturedMoments.add(gifValue)
+            player?.let {
+                val second = it.currentPosition //Todo: Replace with timestamp second
+                gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/testvid/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
+                FirebaseApp.initializeApp(this@PlayerActivity)
+                val database = Firebase.database.reference
+                val moment = Moment(gifValue, "HBO", System.currentTimeMillis().toString(), "Avengers: Endgame", "SuperHero")
+                database.child("moments").child(System.currentTimeMillis().toString()).setValue(moment)
+                delay(2000)
+                setSidePanelState(SidePanelState.ShowMoment)
+            }
+
         }
 
     }
 
-    fun setTopPanelState(panelState: TopPanelState) {
-        when (panelState) {
+    fun setTopPanelState(panelState: TopPanelState){
+        when(panelState){
             TopPanelState.Shown -> {
                 val panelFragment = PanelFragment.getInstance()
                 supportFragmentManager.beginTransaction()
