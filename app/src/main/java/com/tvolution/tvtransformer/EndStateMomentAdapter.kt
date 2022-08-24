@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 
 class EndStateMomentAdapter : RecyclerView.Adapter<EndStateMomentAdapter.ItemViewHolder>() {
 
+    var onItemClick: ((String) -> Unit)? = null
     var list = arrayListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -21,6 +22,9 @@ class EndStateMomentAdapter : RecyclerView.Adapter<EndStateMomentAdapter.ItemVie
         list[position].run {
             Glide.with(holder.ivImage.context).load(list.get(position))
                 .placeholder(R.drawable.cardone).into(holder.ivImage)
+            holder.ivImage.setOnClickListener {
+                onItemClick?.invoke(list.get(position))
+            }
         }
     }
 

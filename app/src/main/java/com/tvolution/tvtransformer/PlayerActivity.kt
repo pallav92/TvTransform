@@ -2,11 +2,11 @@ package com.tvolution.tvtransformer
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.MediaItem
@@ -16,6 +16,8 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.tvolution.tvtransformer.databinding.LayoutActivityPlayerBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -30,12 +32,13 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     private var capturedMoments  = arrayListOf<String>()
     private lateinit var viewModel: PlayerViewModel
     private lateinit var binding: LayoutActivityPlayerBinding
+    var boolean = false
 
 
     data class StaticNudgeData(val icon: Int, val title: String, val startTimeInMillli:Long, val sutitle:String, var shown:Boolean)
-
+//96000
     val scheduledNudges = listOf(
-        StaticNudgeData(R.drawable.ic_camera, "2.5k saved this moment with glance",96000,"", false),
+        StaticNudgeData(R.drawable.ic_camera, "2.5k saved this moment with glance",10000,"", false),
         StaticNudgeData(R.drawable.gauntlet, "Inifinity Gauntlet",135000,"9 pieces left", false),
         StaticNudgeData(R.drawable.stormhammer, "Stormbreaker",150000,"2 pieces left", false),
         StaticNudgeData(R.drawable.gauntlet, "Inifinity Gauntlet",180000,"9 pieces left", false),
@@ -50,25 +53,32 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
         setContentView(binding.root)
         initViewModel()
         initializePlayer()
-        lifecycleScope.launch {
-            while(true){
-                player?.let { player->
-                    var momentToBeShown: StaticNudgeData? = null
-                    scheduledNudges.forEach{
-                        if(!it.shown){
-                            if(it.startTimeInMillli<= player.currentPosition){
-                                momentToBeShown = it
 
-                            }
+        startCountDownTimer()
+    }
+
+    private fun startCountDownTimer() {
+        object : CountDownTimer(127000, 20000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if(boolean) {
+                    var momentToBeShown: StaticNudgeData? = null
+                    scheduledNudges.forEach {
+                        if (!it.shown) {
+                            momentToBeShown = it
                         }
                     }
                     momentToBeShown?.let {
-                        showNudge(it.icon, it.title, true, false, R.drawable.ic_camera!=it.icon)
+                        showNudge(it.icon, it.title, true, false, R.drawable.ic_camera != it.icon)
+                        it.shown = true
                     }
-
                 }
+                boolean=true
             }
-        }
+
+            override fun onFinish() {
+
+            }
+        }.start()
     }
 
     fun captureMoment() {
@@ -77,7 +87,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             showNudge(R.drawable.ic_camera, "Capturing Moment", false, true, false)
             //
             player?.let {
-                val second = it.currentPosition //Todo: Replace with timestamp second
+                val second = it.currentPosition/1000 //Todo: Replace with timestamp second
                 gifValue = "https://hackathon2978.s3.ap-south-1.amazonaws.com/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/testvid/"+second+".gif"//"https://hackathon2978.s3.ap-south-1.amazonaws.com/transformers/"+second+".gif"
                 FirebaseApp.initializeApp(this@PlayerActivity)
                 val database = Firebase.database.reference
@@ -85,6 +95,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
                 database.child("moments").child(System.currentTimeMillis().toString()).setValue(moment)
                 delay(2000)
                 setSidePanelState(SidePanelState.ShowMoment)
+                capturedMoments.add(gifValue)
             }
 
         }
@@ -179,15 +190,14 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
     fun showNudge(icon: Int, title: String, okbutton: Boolean, notimer: Boolean, shopItem: Boolean) {
         val duration = if (notimer) 2 else 10
         val nudgeFragment = NudgeFragment.getInstance(title, icon, duration)
-
+        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment)
+            .commit()
         if(shopItem){
+            nudgeFragment.s = true
             nudgeFragment.setShopImage(icon, title)
             binding.nudgeExitText.text = " to explore!"
         }else
             binding.nudgeExitText.text = " to capture this!"
-
-        supportFragmentManager.beginTransaction().replace(binding.nudgeContainer.id, nudgeFragment)
-            .commit()
         binding.nudgeContainer.visibility = View.VISIBLE
         if (okbutton)
             binding.nudgeBackContainer.visibility = View.VISIBLE
@@ -253,6 +263,11 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
                 player?.pause()
             }
         }
+    }
+
+    override fun onStop() {
+        player?.pause()
+        super.onStop()
     }
 }
 
