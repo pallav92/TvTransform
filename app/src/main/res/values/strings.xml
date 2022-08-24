@@ -12,4 +12,6 @@
     <string name="captured_moments">Captured Moments</string>
     <string name="one_time">One Time Watch</string>
     <string name="dont_watch">Don\'t Watch At All</string>
+    <string name="set_screensaver">Set as screensaver on this TV</string>
+    <string name="set_screebsaver_phone">Set as screensaver on my Glance phone</string>
 </resources>

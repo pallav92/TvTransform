@@ -1,5 +1,6 @@
 package com.tvolution.tvtransformer
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,8 +42,18 @@ class EndStateActivity : FragmentActivity() {
                 layoutManager =
                     LinearLayoutManager(this@EndStateActivity, LinearLayoutManager.HORIZONTAL, false)
                 adapter = endStateMomentAdapter
+                endStateMomentAdapter.onItemClick = {url ->
+                    openEndStateActivity(url)
+                }
             }
+
         }
+    }
+
+    private fun openEndStateActivity(capturedMoment : String) {
+        val intent = Intent(this, MomentCaptureActivity::class.java)
+        intent.putExtra("CAPTURED_MOMENT", capturedMoment)
+        startActivity(intent)
     }
 
 

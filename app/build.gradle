@@ -5,13 +5,13 @@ plugins {
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     viewBinding.enabled = true
     defaultConfig {
         applicationId "com.tvolution.tvtransformer"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 

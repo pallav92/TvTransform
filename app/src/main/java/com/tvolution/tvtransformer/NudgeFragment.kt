@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 
 class NudgeFragment : Fragment() {
 
-    companion object{
+    companion object {
 
         const val NO_TIMER = 2
-        const val TITLE="title"
-        const val ICON="icon"
-        const val DURATION="duration"
-        fun getInstance(title:String, iconId: Int, duration:Int): NudgeFragment{
+        const val TITLE = "title"
+        const val ICON = "icon"
+        const val DURATION = "duration"
+        fun getInstance(title: String, iconId: Int, duration: Int): NudgeFragment {
             val fragment = NudgeFragment()
             Bundle().apply {
                 putString(TITLE, title)
@@ -47,31 +47,52 @@ class NudgeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.nudgesOfShop.visibility = View.GONE
         val time = arguments!!.getInt(DURATION)
-        if(time== NO_TIMER)
+        if (time == NO_TIMER)
             binding.pollsViewTimerFl.visibility = View.INVISIBLE
         else
             binding.pollsViewTimerFl.visibility = View.VISIBLE
-        binding.include.panelItemIcon.setColorFilter(Color.parseColor("#FF7EDB"), android.graphics.PorterDuff.Mode.SRC_IN);
+        binding.include.panelItemIcon.setColorFilter(
+            Color.parseColor("#FF7EDB"),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        );
         binding.nudgeTitle.text = arguments!!.getString(TITLE)
-        binding.include.panelItemIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, arguments!!.getInt(ICON), null))
+        binding.include.panelItemIcon.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                arguments!!.getInt(ICON),
+                null
+            )
+        )
         binding.include.root.isSelected = true
         lifecycleScope.launch {
             var timeElapsed = 0
             binding.pollsViewTimerPb.max = time
-            while(time>timeElapsed){
+            while (time > timeElapsed) {
                 binding.pollsViewTimeTv.text = (time - timeElapsed).toString()
-                binding.pollsViewTimerPb.progress=time - timeElapsed
-                timeElapsed+=1
+                binding.pollsViewTimerPb.progress = time - timeElapsed
+                timeElapsed += 1
                 delay(1000)
             }
             (requireActivity() as PlayerActivity).hideNudge()
         }
+
+        if(s)
+            setShopImage(R.drawable.gauntlet, "Infinity Gauntlet")
     }
 
+    var s =false
     fun setShopImage(icon: Int, title: String) {
-        binding.nudgesOfShop.visibility = View.VISIBLE
-        binding.productImage.setImageDrawable(ResourcesCompat.getDrawable(resources, icon, null))
-        binding.nudgeTitle.text = title
-        binding.nudgeSubtitle.text ="Only 2 left!"
+        if (::binding.isInitialized) {
+            binding.nudgesOfShop.visibility = View.VISIBLE
+            binding.productImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    icon,
+                    null
+                )
+            )
+            binding.nudgeTitle.text = title
+            binding.nudgeSubtitle.text = "Only 2 left!"
+        }
     }
 }

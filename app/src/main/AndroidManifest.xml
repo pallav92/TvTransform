@@ -26,6 +26,7 @@
             android:name=".PlayerActivity"
             android:exported="true"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +38,15 @@
 
         <activity
             android:name=".EndStateActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
+
+
+
+        </activity>
+
+        <activity
+            android:name=".MomentCaptureActivity"
             android:exported="true"
             android:screenOrientation="landscape">
 
