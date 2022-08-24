@@ -131,8 +131,27 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             setSidePanelState(SidePanelState.Hide)
             return true
         }
+
+        if(binding.panelContainer.visibility == View.GONE){
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                playbackSpeed+=1f
+                player?.setPlaybackSpeed(playbackSpeed)
+                setSidePanelState(SidePanelState.Hide)
+                return true
+            }
+            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                player?.setPlaybackSpeed(1f);
+                playbackSpeed=1f
+                setSidePanelState(SidePanelState.Hide)
+                return true
+            }
+        }
+
+
         return super.onKeyDown(keyCode, event)
     }
+
+    var playbackSpeed = 1f;
 
     enum class TopPanelState {
         Shown, Hidden
@@ -144,7 +163,7 @@ class PlayerActivity : FragmentActivity(), Player.Listener {
             .build().also { exoPlayer ->
                 binding.videoView.player = exoPlayer
                 //TODO : Add URL
-                exoPlayer.setMediaItem(MediaItem.fromUri("https://hackathon2978.s3.ap-south-1.amazonaws.com/final_vid/video_hackathon.mp4"))
+                exoPlayer.setMediaItem(MediaItem.fromUri("https://firebasestorage.googleapis.com/v0/b/gtv-tvolution.appspot.com/o/Avengers%20Endgame%20I%20Am%20Iron%20Man%204K%2060fps%20Wanda%20vs%20Thanos%20Final%20Battle%20%233.mp4?alt=media&token=87840735-c42f-4162-9f14-2047949067cc"))
                 exoPlayer.playWhenReady = playWhenReady
                 exoPlayer.seekTo(playbackPosition)
                 exoPlayer.prepare()

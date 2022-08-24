@@ -22,6 +22,9 @@ class EndStateMomentAdapter : RecyclerView.Adapter<EndStateMomentAdapter.ItemVie
         list[position].run {
             Glide.with(holder.ivImage.context).load(list.get(position))
                 .placeholder(R.drawable.cardone).into(holder.ivImage)
+            holder.itemView.setOnClickListener{
+                onItemClick?.invoke(list.get(position))
+            }
             holder.ivImage.setOnClickListener {
                 onItemClick?.invoke(list.get(position))
             }
