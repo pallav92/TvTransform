@@ -14,4 +14,5 @@
     <string name="dont_watch">Don\'t Watch At All</string>
     <string name="set_screensaver">Set as screensaver on this TV</string>
     <string name="set_screebsaver_phone">Set as screensaver on my Glance phone</string>
+    <string name="save_to_google_photos">Save to Google Photos</string>
 </resources>
